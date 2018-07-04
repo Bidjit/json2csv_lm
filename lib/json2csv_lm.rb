@@ -8,17 +8,19 @@ require 'csv'
 # open/write error
 
 class Json2csvLm
-  # For now .convert will create or overwrite output.csv in th same dir than input_filepath
   def self.convert(input_filepath, output_filepath = nil)
     unless File.exist?(input_filepath)
       puts "Error: File not found"
-      exit
+      Kernel.exit
     end
     content_hashes = parse_json_file(input_filepath)
     content_strings_arrays = hashes_to_strings_arrays(content_hashes)
 
-    # file exist ? puts
-    # begin rescue sur storecsv     fichier bloqué accès refusé
+    # TODO for next line
+      # file exist ? if yes => erasable/writable/accessGranted ? if no => handle the case
+        # begin rescue sur l'appel de storecsv
+
+    # For now .convert will create or overwrite output.csv in th same dir than input_filepath
     storecsv("#{File.dirname(input_filepath)}/output.csv", content_strings_arrays)
   end
 
@@ -30,21 +32,19 @@ class Json2csvLm
       serialized_content = File.read(filepath)
     rescue
       puts "Error: readError"
-
-      exit
+      Kernel.exit
     end
 
     begin
       content_hashes_array = JSON.parse(serialized_content)
     rescue
-      puts "Error: parseError"
-      puts "Le fichier n'a pu être parsé, vérifié le format"
-      exit
+      puts "Error: parseError: file can't be parsed, check format"
+      Kernel.exit
     end
 
     if content_hashes_array.length == 0
       puts "No object in the json file, operation aborted"
-      exit
+      Kernel.exit
     else
       return content_hashes_array
     end
@@ -66,18 +66,13 @@ class Json2csvLm
   end
 
   # Constructing an array of row_contents
-      # begin
-      # rescue => e
-      #   puts e.class
-      #   puts "Error: #{e.message}"
-      #   puts "All objects of the file must have the same schema "
-      # end
   def self.hashes_to_strings_arrays(hashes_array)
     res = []
     headers = extract_headers(hashes_array.first)
     res << headers
     hashes_array.each do |hash|
       row_content = []
+      begin
       headers.each do |header|
         value = hash.dig(*header.split("."))
         # array values transformation
@@ -92,6 +87,12 @@ class Json2csvLm
         else
           row_content << value
         end
+      end
+      rescue => e
+        puts e.class
+        puts "Error: #{e.message}"
+        puts "All objects of the file must have the same schema "
+        Kernel.exit
       end
       res << row_content
     end
@@ -114,10 +115,3 @@ class Json2csvLm
     end
   end
 end
-
-# Json2csvLm.convert("home/input.json")
-Json2csvLm.convert("/home/bidjit/code/Bidjit/livementor/input.json")
-
-# h = Json2csvLm.parse_json_file("/home/bidjit/code/Bidjit/livementor/input.json").first
-# p Json2csvLm.extract_headers(h)
-# p Json2csvLm.extract_headers({ "hi" => 1, "nested" => { "hide" => "treasure"}})

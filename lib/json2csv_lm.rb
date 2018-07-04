@@ -1,12 +1,6 @@
 require 'json'
 require 'csv'
 
-# file not found
-# read error
-# parse error
-# content error
-# open/write error
-
 class Json2csvLm
   def self.convert(input_filepath, output_filepath = nil)
     unless File.exist?(input_filepath)

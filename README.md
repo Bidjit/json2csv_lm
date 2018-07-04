@@ -7,7 +7,7 @@ of objects (all following the same schema) to a CSV file where one line equals o
 
 ## Installation
 
-Since the gem is not published to RubyGems.org, you have to install it manually, simply copy the `json2csv_lm-0.0.1.gem:` on your computer, then run the following (from the `json2csv_lm-0.0.1.gem` file's directory ):
+Since the gem is not published to RubyGems.org, you have to install it manually, simply copy the `json2csv_lm-0.0.1.gem` file on your computer, then run the following (from the `json2csv_lm-0.0.1.gem` file's directory ):
 
 ```bash
 $ gem install ./json2csv_lm-0.0.1.gem  # adatp the filepath if u run this line from another directory

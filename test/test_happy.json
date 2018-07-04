@@ -1,0 +1,40 @@
+[
+  {
+    "id": 0,
+    "email": "test@test.com",
+    "results": [
+      10,
+      8,
+      2
+    ],
+    "profiles": {
+      "facebook": {
+        "id": 0,
+        "nickname": "SuperTester"
+      },
+      "twitter": {
+        "id": 0,
+        "nickname": "SuperTester"
+      }
+    }
+  },
+  {
+    "id": 1,
+    "email": "azer@azer.com",
+    "results": [
+      9,
+      9,
+      9
+    ],
+    "profiles": {
+      "facebook": {
+        "id": 1,
+        "nickname": "AzerPower"
+      },
+      "twitter": {
+        "id": 1,
+        "nickname": "AzerPower"
+      }
+    }
+  }
+]

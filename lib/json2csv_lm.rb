@@ -19,7 +19,6 @@ class Json2csvLm
     # TODO for next line
       # file exist ? if yes => erasable/writable/accessGranted ? if no => handle the case
         # begin rescue sur l'appel de storecsv
-
     # For now .convert will create or overwrite output.csv in th same dir than input_filepath
     storecsv("#{File.dirname(input_filepath)}/output.csv", content_strings_arrays)
   end

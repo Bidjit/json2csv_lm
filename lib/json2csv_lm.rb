@@ -5,17 +5,22 @@ class Json2csvLm
   def self.convert(input_filepath, output_filepath = nil)
     unless File.exist?(input_filepath)
       puts "Error: File not found"
-      Kernel.exit
+      return
     end
     content_hashes = parse_json_file(input_filepath)
     content_strings_arrays = hashes_to_strings_arrays(content_hashes)
-
+    return if content_hashes == nil
     # TODO for next line
       # file exist ? if yes => erasable/writable/accessGranted ? if no => handle the case
         # begin rescue sur l'appel de storecsv
     # For now .convert will create or overwrite output.csv in th same dir than input_filepath
     storecsv("#{File.dirname(input_filepath)}/output.csv", content_strings_arrays)
   end
+
+  def self.voidmeth
+    return
+  end
+  p Json2csvLm.voidmeth
 
   private
 
@@ -25,19 +30,19 @@ class Json2csvLm
       serialized_content = File.read(filepath)
     rescue
       puts "Error: readError"
-      Kernel.exit
+      return nil
     end
 
     begin
       content_hashes_array = JSON.parse(serialized_content)
     rescue
       puts "Error: parseError: file can't be parsed, check format"
-      Kernel.exit
+      return nil
     end
 
     if content_hashes_array.length == 0
       puts "No object in the json file, operation aborted"
-      Kernel.exit
+      return nil
     else
       return content_hashes_array
     end

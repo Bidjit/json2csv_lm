@@ -10,9 +10,6 @@ class Json2csvLm
     begin
       content_hashes = parse_json_file(input_filepath)
       content_strings_arrays = hashes_to_strings_arrays(content_hashes)
-      # TODO for next line
-        # file exist ? if yes => erasable/writable/accessGranted ? if no => handle the case
-          # begin rescue sur l'appel de storecsv
       if output_filepath.nil?
         storecsv("#{File.dirname(input_filepath)}/output.csv", content_strings_arrays)
       else
@@ -71,13 +68,6 @@ class Json2csvLm
       res << row_content
     end
     return res
-      # rescue => e
-      #   puts e.class
-      #   puts "Error: #{e.message}"
-      #   puts "All objects of the file must have the same schema "
-      #   # Kernel.exit
-      #   return nil
-      # end
   end
 
   def self.array_value_to_s(value)

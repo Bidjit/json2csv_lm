@@ -13,8 +13,11 @@ class Json2csvLm
       # TODO for next line
         # file exist ? if yes => erasable/writable/accessGranted ? if no => handle the case
           # begin rescue sur l'appel de storecsv
-      # For now .convert will create or overwrite output.csv in th same dir than input_filepath
-      storecsv("#{File.dirname(input_filepath)}/output.csv", content_strings_arrays)
+      if output_filepath.nil?
+        storecsv("#{File.dirname(input_filepath)}/output.csv", content_strings_arrays)
+      else
+        storecsv(output_filepath, content_strings_arrays)
+      end
     rescue => e
       e.inspect
     end
@@ -60,13 +63,7 @@ class Json2csvLm
         value = hash.dig(*header.split("."))
         # array values transformation
         if value.is_a?(Array)
-          # In case of value = [] :
-          if value.length > 0
-            row_content << value.join("|")
-          else
-            # we want nothing between the delimiters in the csv (,,) not double doublequote (,"",)
-            row_content << nil
-          end
+          row_content << array_value_to_s(value)
         else
           row_content << value
         end
@@ -81,6 +78,16 @@ class Json2csvLm
       #   # Kernel.exit
       #   return nil
       # end
+  end
+
+  def self.array_value_to_s(value)
+    # In case of value = [] :
+    if value.length > 0
+      return value.join("|")
+    else
+      # we want nothing between the delimiters in the csv (,,) not double doublequote (,"",)
+      return nil
+    end
   end
 
   # Storing CSV
